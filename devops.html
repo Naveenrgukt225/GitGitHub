@@ -1,0 +1,84 @@
+
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+newgrp docker
+----------------------------------------------------------------
+docker --version	Check Docker version
+docker info	System-wide Docker info
+docker help
+
+docker run <image>	Run a container
+docker run -it <image>	Run with interactive terminal
+docker run -d <image>	Run in detached mode (background)
+docker run -p 8080:80 <image>	Map ports (host:container)
+docker run --name mycontainer <image>	Assign a name
+docker ps	List running containers
+docker ps -a	List all containers
+docker stop <container>	Stop a running container
+docker start <container>	Start a stopped container
+docker restart <container>	Restart a container
+docker rm <container>	Remove a container
+docker exec -it <container> bash	Enter container shell
+docker logs <container>
+
+docker pull <image>	Download image from Docker Hub
+docker images	List downloaded images
+docker rmi <image>	Remove an image
+docker build -t <name> .
+
+-------------------------------------------------------
+->   for the docker Application permission denied will ask then go it
+ --->  sudo usermod -aG docker $USER
+ --->  newgrp docker
+ --->  
+ 
+ -----------------------------------------------------------
+ $ mkdir nave_cr
+
+$ cd nave_cr/
+
+/nave_cr$ nano server.py    --> copy the code and paste it ans change the  localhost number    and  cntrl + s  and cntrl + x
+
+~/nave_cr$ nano Dockerfile    same for this also
+
+docker build -t minimal-webserver .
+
+docker run -p 2020:2020 minimal-webserver
+
+
+then copy the localhost and paste in web browser 
+
+--------------------------------------------------------------------
+
+docker server.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, World! This is a lightweight web server."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+cntrl+s and cntrl+x
+
+-----------------------------------------------
+docker Dockerfile
+
+FROM python:3.9-alpine
+WORKDIR /app
+COPY server.py .
+RUN pip install --no-cache-dir flask
+EXPOSE 8080
+CMD ["python", "server.py"]
+
+cntrl+s and cntrl+x
+
+docker build -t minimal-webserver .
+docker run -p 8080:8080 minimal-webserver
+
+
+sudo systemctl start jenkins
